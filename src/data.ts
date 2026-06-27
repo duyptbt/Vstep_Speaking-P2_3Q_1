@@ -13,8 +13,8 @@ export const FRAMEWORK_STEPS: FrameworkStep[] = [
       "Regarding the scenario of ..., among the three suggested solutions, I strongly believe that ... is the best course of action.",
       "To address the situation of ..., I would choose ... for several compelling reasons."
     ],
-    color: "#e3eef7",
-    textColor: "#2f6e9e"
+    color: "#2563EB",
+    textColor: "#1E40AF"
   },
   {
     id: "o",
@@ -29,8 +29,8 @@ export const FRAMEWORK_STEPS: FrameworkStep[] = [
       "For instance, from my own experience, ... can easily lead to ...",
       "This is highly effective because it directly addresses the problem of ..."
     ],
-    color: "#e8f0db",
-    textColor: "#4a6030"
+    color: "#16A34A",
+    textColor: "#166534"
   },
   {
     id: "c",
@@ -45,8 +45,8 @@ export const FRAMEWORK_STEPS: FrameworkStep[] = [
       "Unlike my choice, both of these options are highly dependent on ...",
       "Therefore, we should rule out ... and ... because they fail to ..."
     ],
-    color: "#f5e9d0",
-    textColor: "#7a5a1f"
+    color: "#D97706",
+    textColor: "#92400E"
   },
   {
     id: "a",
@@ -60,8 +60,8 @@ export const FRAMEWORK_STEPS: FrameworkStep[] = [
       "So personally, I rest my case that ... is the best choice among the three.",
       "For these reasons, I am fully convinced that ... is the ultimate way forward."
     ],
-    color: "#f5ece3",
-    textColor: "#8a4a20"
+    color: "#9333EA",
+    textColor: "#6B21A8"
   }
 ];
 

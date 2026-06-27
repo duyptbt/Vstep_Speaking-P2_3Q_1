@@ -410,7 +410,7 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
                 x="0"
                 y="-5"
                 textAnchor="middle"
-                fontSize="10"
+                fontSize="11"
                 fontWeight="bold"
                 fill="#1a1a1a"
                 fontFamily="sans-serif"
@@ -422,7 +422,7 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
                 x="0"
                 y="15"
                 textAnchor="middle"
-                fontSize="11"
+                fontSize="13"
                 fontWeight="bold"
                 fill="#D44D5C"
                 fontFamily="sans-serif"
@@ -456,9 +456,9 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
               />
               <text
                 x="-92"
-                y="2"
+                y="2.5"
                 textAnchor="middle"
-                fontSize="10"
+                fontSize="11"
                 fontWeight="bold"
                 fill="#ffffff"
                 fontFamily="sans-serif"
@@ -467,9 +467,9 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
               </text>
               <text
                 x="15"
-                y="2"
+                y="3.5"
                 textAnchor="middle"
-                fontSize="11"
+                fontSize="13"
                 fontWeight={selectedOptionId === "A" ? "bold" : "medium"}
                 fill="#1a1a1a"
                 fontFamily="sans-serif"
@@ -509,9 +509,9 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
               />
               <text
                 x="-52"
-                y="2"
+                y="2.5"
                 textAnchor="middle"
-                fontSize="10"
+                fontSize="11"
                 fontWeight="bold"
                 fill="#ffffff"
                 fontFamily="sans-serif"
@@ -520,9 +520,9 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
               </text>
               <text
                 x="25"
-                y="2"
+                y="3.5"
                 textAnchor="middle"
-                fontSize="11"
+                fontSize="13"
                 fontWeight={selectedOptionId === "B" ? "bold" : "medium"}
                 fill="#1a1a1a"
                 fontFamily="sans-serif"
@@ -562,9 +562,9 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
               />
               <text
                 x="-67"
-                y="2"
+                y="2.5"
                 textAnchor="middle"
-                fontSize="10"
+                fontSize="11"
                 fontWeight="bold"
                 fill="#ffffff"
                 fontFamily="sans-serif"
@@ -573,9 +573,9 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
               </text>
               <text
                 x="15"
-                y="2"
+                y="3.5"
                 textAnchor="middle"
-                fontSize="11"
+                fontSize="13"
                 fontWeight={selectedOptionId === "C" ? "bold" : "medium"}
                 fill="#1a1a1a"
                 fontFamily="sans-serif"
@@ -604,7 +604,7 @@ export default function TopicCard({ topic, selectedOptionId, onOptionSelect, ban
         <span className="inline-block bg-black text-white px-3 py-1 text-[11px] font-bold uppercase tracking-widest mb-4">
           The Situation
         </span>
-        <h2 className="text-2xl sm:text-3xl font-serif text-[#1A1A1A] font-medium leading-relaxed italic">
+        <h2 className="text-lg sm:text-xl font-serif text-[#1A1A1A] font-medium leading-relaxed italic">
           {topic.situation}
         </h2>
       </div>

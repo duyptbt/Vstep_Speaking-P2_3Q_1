@@ -42,14 +42,18 @@ export default function SocaFramework({
               onClick={() => onSelectStep(s.id)}
               className={`p-3 border-2 text-left transition-all duration-150 cursor-pointer ${
                 isActive
-                  ? "border-[#D44D5C] bg-[#FDFCFB]"
+                  ? "bg-[#FDFCFB]"
                   : "border-black/20 bg-white hover:border-black"
               }`}
+              style={{
+                borderColor: isActive ? s.color : undefined,
+                borderLeftWidth: isActive ? "4px" : "2px"
+              }}
               id={`soca-step-btn-${s.id}`}
             >
               <div
                 className="text-[10px] font-bold uppercase tracking-wider mb-1"
-                style={{ color: isActive ? "#D44D5C" : "rgba(0,0,0,0.5)" }}
+                style={{ color: isActive ? s.color : "rgba(0,0,0,0.5)" }}
               >
                 Bước {s.num}
               </div>
@@ -66,14 +70,15 @@ export default function SocaFramework({
 
       {/* Step Detail Panel */}
       <div
-        className="border-2 border-black border-l-[6px] border-l-[#D44D5C] p-5 transition-all duration-150 animate-fade-in bg-[#FDFCFB]"
+        className="border-2 border-black border-l-[6px] p-5 transition-all duration-150 animate-fade-in bg-[#FDFCFB]"
+        style={{ borderLeftColor: activeStep.color }}
         id="soca-step-detail-panel"
       >
         {/* Step Header */}
         <div className="flex items-center gap-3 mb-3 border-b border-black/10 pb-3">
           <div
             className="w-8 h-8 flex items-center justify-center font-display font-black text-sm text-white"
-            style={{ backgroundColor: "#D44D5C" }}
+            style={{ backgroundColor: activeStep.color }}
           >
             {activeStep.num}
           </div>

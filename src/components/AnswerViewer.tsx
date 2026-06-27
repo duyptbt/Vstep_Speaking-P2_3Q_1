@@ -139,12 +139,6 @@ export default function AnswerViewer({
   const [generating, setGenerating] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
 
-  // Reset custom answer whenever topic or option changes
-  useEffect(() => {
-    setCustomAnswer(null);
-    setGenError(null);
-  }, [topic, selectedOptionId]);
-
   // Determine active answer source (either pre-written if choice matches recommendedChoice, or custom generated, or fallback)
   const isRecommendedChoice = selectedOptionId === topic.recommendedChoice;
   
@@ -157,13 +151,13 @@ export default function AnswerViewer({
       return topic.bandAnswers[band];
     }
     
-    // Otherwise, generate a prompt placeholder and suggest AI generation
+    // Otherwise, generate a guide outline structure to assist them with the custom choice
     return {
-      s: `[Click the AI Generate button below to generate a B1/B2/C1 script choosing Option ${selectedOptionId}: ${selectedOptionName}]`,
-      o: `This will outline the advantages of ${selectedOptionName} customized to your choice.`,
-      c: `This will analyze and reject the other options: ${otherOptionsNames.join(" and ")}.`,
-      a: `This will wrap up the speech elegantly in ${band} band.`,
-      note: "Bạn đang chọn một phương án khác với phương án gợi ý mặc định. Hãy nhấn nút 'AI tạo bài mẫu' phía dưới để Gemini tự động lập luận chi tiết cho bài nói này nhé!"
+      s: `State your choice clearly: "In this situation, I believe that choosing ${selectedOptionName} is the most optimal option." Paraphrase the scenario to demonstrate your lexical range.`,
+      o: `Elaborate on the key benefits of ${selectedOptionName}. Use specific supporting reasons (e.g., cost-effectiveness, convenience, or long-term positive impact) to justify your stance.`,
+      c: `Contrast and systematically reject the other options (${otherOptionsNames.join(" and ")}). Point out their key flaws, such as high expenses, weather dependency, or lack of practicality.`,
+      a: `Conclude with a confident summary: "All in all, while the other choices have some merits, ${selectedOptionName} is undeniably the most logical decision."`,
+      note: "Hướng dẫn tự luyện nói: Hãy dựa vào khung sườn cấu trúc SOCA ở trên để tự triển khai ý nói. Để AI tự động viết kịch bản chi tiết và phân tích từ vựng cao cấp cho bạn, hãy cấu hình GEMINI_API_KEY ở mục Settings > Secrets của không gian làm việc nhé!"
     };
   };
 
@@ -204,6 +198,18 @@ export default function AnswerViewer({
       setGenerating(false);
     }
   };
+
+  // Auto-generate custom answer when choice is not the recommended choice
+  useEffect(() => {
+    if (!isRecommendedChoice) {
+      setCustomAnswer(null);
+      setGenError(null);
+      generateCustomAnswer();
+    } else {
+      setCustomAnswer(null);
+      setGenError(null);
+    }
+  }, [topic, selectedOptionId, band]);
 
   // Indicative scores based on band
   const getIndicativeScores = () => {
@@ -265,15 +271,31 @@ export default function AnswerViewer({
           </div>
         </div>
 
-        {/* Highlight Toggle Button */}
-        <button
-          onClick={() => setHighlightOn(!highlightOn)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 border-2 border-black text-[11px] font-bold uppercase tracking-widest text-gray-950 bg-white hover:bg-black hover:text-white transition-colors cursor-pointer self-start sm:self-auto"
-          id="btn-toggle-highlight"
-        >
-          {highlightOn ? <EyeOff size={14} /> : <Eye size={14} />}
-          <span>{highlightOn ? "Tắt màu cấu trúc" : "Bật màu cấu trúc"}</span>
-        </button>
+        {/* Action Button Container */}
+        <div className="flex flex-wrap gap-2 self-start sm:self-auto">
+          {/* Highlight Toggle Button */}
+          <button
+            onClick={() => setHighlightOn(!highlightOn)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 border-2 border-black text-[11px] font-bold uppercase tracking-widest text-gray-950 bg-white hover:bg-black hover:text-white transition-colors cursor-pointer"
+            id="btn-toggle-highlight"
+          >
+            {highlightOn ? <EyeOff size={14} /> : <Eye size={14} />}
+            <span>{highlightOn ? "Tắt màu cấu trúc" : "Bật màu cấu trúc"}</span>
+          </button>
+
+          {/* Regenerate Button */}
+          {!isRecommendedChoice && (customAnswer || genError) && (
+            <button
+              onClick={generateCustomAnswer}
+              disabled={generating}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 border-2 border-[#D44D5C] text-[11px] font-bold uppercase tracking-widest text-white bg-[#D44D5C] hover:bg-black hover:border-black transition-colors cursor-pointer disabled:opacity-50"
+              id="btn-regenerate-ai"
+            >
+              <RefreshCw size={14} className={generating ? "animate-spin" : ""} />
+              <span>{generating ? "Đang viết..." : "AI Lập luận lại"}</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Answer Area */}
@@ -282,71 +304,105 @@ export default function AnswerViewer({
           <span>Kịch bản nói mẫu ({band} Level Script) — chạm đoạn để xem giải thích</span>
           {!isRecommendedChoice && !customAnswer && (
             <span className="text-[#D44D5C] font-bold flex items-center gap-1 uppercase tracking-wider">
-              <AlertTriangle size={10} /> Bài mẫu AI gợi ý dưới đây
+              <AlertTriangle size={10} /> Khung sườn nói mẫu phía dưới
             </span>
           )}
         </div>
 
         <div
-          className="bg-[#FDFCFB] border-2 border-black p-5 text-gray-950 font-sans text-base leading-relaxed space-y-4"
+          className="bg-[#FDFCFB] border-2 border-black p-5 text-gray-950 font-sans text-base leading-relaxed space-y-4 min-h-[220px]"
           id="model-answer-speech-text"
         >
-          {steps.map((s) => {
-            const textSegment = activeAnswer[s.id];
-            const bgHighlight = highlightOn ? `${s.color}25` : "transparent";
-            const borderHighlight = highlightOn ? `4px solid ${s.color}` : "none";
+          {generating ? (
+            <div className="space-y-4 py-2" id="ai-generating-loader-shimmer">
+              {steps.map((s) => (
+                <div key={s.id} className="animate-pulse flex flex-col md:flex-row md:items-start gap-3 p-2 bg-white border-l-4 border-dashed rounded-none" style={{ borderColor: s.color }}>
+                  <span
+                    className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-white flex-shrink-0 self-start mt-0.5"
+                    style={{ backgroundColor: s.color }}
+                  >
+                    Step {s.num}
+                  </span>
+                  <div className="flex-1 space-y-2 py-0.5">
+                    <div className="h-4 bg-gray-200/80 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200/50 rounded w-5/6"></div>
+                  </div>
+                </div>
+              ))}
+              <div className="flex items-center justify-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest pt-3 border-t border-black/5">
+                <Sparkles size={14} className="animate-spin text-[#D44D5C]" />
+                <span className="animate-pulse text-[#D44D5C]">Trí tuệ nhân tạo Gemini đang lập luận bài nói mẫu...</span>
+              </div>
+            </div>
+          ) : (
+            steps.map((s) => {
+              const textSegment = activeAnswer[s.id];
+              const bgHighlight = highlightOn ? `${s.color}25` : "transparent";
+              const borderHighlight = highlightOn ? `4px solid ${s.color}` : "none";
 
-            return (
-              <p
-                key={s.id}
-                onClick={() => onSelectStep(s.id)}
-                className="hover:bg-black/5 transition-colors p-2 cursor-pointer flex flex-col md:flex-row md:items-start gap-2.5 group relative"
-                title={`Click to view details for Step ${s.num}`}
-                style={{
-                  backgroundColor: bgHighlight,
-                  borderLeft: borderHighlight
-                }}
-              >
-                {/* Step Indicator Badge */}
-                <span
-                  className="px-2 py-0.5 text-[9px] font-bold tracking-widest uppercase flex-shrink-0 self-start mt-0.5 text-white"
-                  style={{ backgroundColor: s.textColor === "#ffffff" ? "#D44D5C" : "#1a1a1a" }}
+              return (
+                <p
+                  key={s.id}
+                  onClick={() => onSelectStep(s.id)}
+                  className="hover:bg-black/5 transition-colors p-2 cursor-pointer flex flex-col md:flex-row md:items-start gap-2.5 group relative"
+                  title={`Click to view details for Step ${s.num}`}
+                  style={{
+                    backgroundColor: bgHighlight,
+                    borderLeft: borderHighlight
+                  }}
                 >
-                  Step {s.num}
-                </span>
-                
-                {/* Segment Text */}
-                <span className="text-gray-950 flex-1 font-serif select-all font-medium">
-                  {textSegment}
-                </span>
-              </p>
-            );
-          })}
+                  {/* Step Indicator Badge */}
+                  <span
+                    className="px-2 py-0.5 text-[9px] font-bold tracking-widest uppercase flex-shrink-0 self-start mt-0.5 text-white"
+                    style={{ backgroundColor: s.color }}
+                  >
+                    Step {s.num}
+                  </span>
+                  
+                  {/* Segment Text */}
+                  <span className="text-gray-950 flex-1 font-serif select-all font-medium animate-fade-in">
+                    {textSegment}
+                  </span>
+                </p>
+              );
+            })
+          )}
         </div>
       </div>
 
-      {/* AI Generate Assistant Block (only shown if not recommendedChoice and customAnswer not generated yet) */}
-      {!isRecommendedChoice && !customAnswer && (
-        <div className="bg-[#FDFCFB] border-2 border-black border-dashed p-4 mb-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Information Banner for Custom Choices */}
+      {!isRecommendedChoice && !generating && (
+        <div className={`p-4 mb-5 border-2 border-black flex flex-col sm:flex-row items-center justify-between gap-4 ${customAnswer ? "bg-amber-50/40 border-dashed border-[#D44D5C]" : "bg-gray-50 border-dotted border-gray-400"}`}>
           <div className="flex items-start gap-2.5">
-            <div className="p-2 bg-black text-white rounded-none mt-0.5">
-              <Sparkles size={18} className="text-[#D44D5C]" />
+            <div className={`p-1.5 rounded-none mt-0.5 ${customAnswer ? "bg-amber-100 text-amber-800" : "bg-gray-200 text-gray-700"}`}>
+              {customAnswer ? <Sparkles size={16} className="text-[#D44D5C]" /> : <Info size={16} />}
             </div>
             <div>
-              <h4 className="text-sm font-black text-gray-950 font-display uppercase tracking-wider">Tạo bài mẫu AI theo lựa chọn riêng</h4>
-              <p className="text-xs text-gray-700 leading-relaxed max-w-lg mt-0.5">
-                Bạn đã đổi lựa chọn sang <strong>Option {selectedOptionId} ({selectedOptionName})</strong>. Hãy để AI viết kịch bản lập luận mượt mà chuẩn cấu trúc SOCA band {band} nhé!
+              <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider">
+                {customAnswer ? "Kịch bản AI Cá Nhân Hóa (Gemini Live-Crafted)" : "Khung sườn Gợi ý nói chuẩn SOCA"}
+              </h4>
+              <p className="text-xs text-gray-700 leading-relaxed mt-0.5">
+                {customAnswer ? (
+                  <>
+                    Kịch bản mẫu Band <strong>{band}</strong> tự động thiết kế riêng theo lựa chọn <strong>Option {selectedOptionId} ({selectedOptionName})</strong>.
+                  </>
+                ) : (
+                  <>
+                    Đang hiển thị hướng dẫn tự phát triển ý. Nếu muốn AI viết kịch bản chi tiết bằng tiếng Anh, vui lòng cấu hình <strong>GEMINI_API_KEY</strong> trong Settings.
+                  </>
+                )}
               </p>
             </div>
           </div>
+          
           <button
             onClick={generateCustomAnswer}
             disabled={generating}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-black hover:bg-[#D44D5C] text-white border-2 border-black hover:border-[#D44D5C] text-xs font-bold uppercase tracking-widest transition-all duration-150 cursor-pointer disabled:opacity-50"
-            id="btn-ai-generate-script"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-black hover:bg-[#D44D5C] text-white text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer disabled:opacity-50 flex-shrink-0"
+            id="btn-banner-ai-action"
           >
-            <RefreshCw size={14} className={generating ? "animate-spin" : ""} />
-            <span>{generating ? "Đang viết..." : "AI Tạo bài mẫu"}</span>
+            <RefreshCw size={12} className={generating ? "animate-spin" : ""} />
+            <span>{customAnswer ? "Tạo lại bài mới" : "Thử tạo bằng AI"}</span>
           </button>
         </div>
       )}
