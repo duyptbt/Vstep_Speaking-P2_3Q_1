@@ -1,0 +1,6 @@
+{
+  "name": "VSTEP Speaking Part 2 — Solution Discussion",
+  "description": "Master the VSTEP Speaking Part 2 exam using the interactive S-O-C-A framework, option comparative matrices, and full-stack AI speech evaluation, feedback, and target band generation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
