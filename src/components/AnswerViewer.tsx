@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Topic, BandAnswer, FrameworkStep } from "../types";
-import { Sparkles, BarChart2, Eye, EyeOff, AlertTriangle, RefreshCw, Trophy, Info } from "lucide-react";
+import { Sparkles, BarChart2, Eye, EyeOff, AlertTriangle, Trophy, Info } from "lucide-react";
 
 interface RubricDetail {
-  fluency: string;
+  discourse: string;
   lexical: string;
   grammar: string;
   pron: string;
@@ -15,48 +15,51 @@ interface RubricDetail {
 const getDetailedRubric = (band: "C1" | "B2" | "B1", topicId: number): RubricDetail => {
   const common = {
     C1: {
-      fluency: "Nói trôi chảy tự nhiên, mạch lạc, tốc độ lý tưởng. Các ý kết nối chặt chẽ bằng từ nối cao cấp.",
-      lexical: "Vốn từ học thuật, thành ngữ phong phú, chính xác theo ngữ cảnh.",
-      grammar: "Sử dụng đa dạng các cấu trúc phức tạp (câu điều kiện, mệnh đề phân từ, đảo ngữ).",
-      pron: "Nhấn trọng âm rõ ràng, ngữ điệu tự nhiên, biểu cảm chuyên nghiệp."
+      discourse: "Cấu trúc SOCA 4 bước cực kỳ mạch lạc, chặt chẽ. Chuyển ý chuyên nghiệp bằng trạng từ liên kết cao cấp.",
+      lexical: "Vốn từ học thuật phong phú, đa dạng, kết hợp collocations chuẩn xác theo ngữ cảnh.",
+      grammar: "Sử dụng linh hoạt các cấu trúc phức tạp (câu điều kiện trộn, đảo ngữ, mệnh đề phân từ rút gọn).",
+      pron: "Một số từ nâng cấp có thể khó phát âm chuẩn: 'strategic' /strəˈtiː.dʒɪk/ (trọng âm âm tiết thứ 2), 'catalyst' /ˈkæt.əl.ɪst/ (nguyên âm đầu /æ/ bẹt), 'integrity' /ɪnˈteɡ.rə.ti/ (trọng âm âm tiết thứ 2)."
     },
     B2: {
-      fluency: "Duy trì tốc độ nói ổn định, thỉnh thoảng có ngập ngừng nhỏ để chọn từ nhưng không ảnh hưởng giao tiếp.",
-      lexical: "Từ vựng phong phú, diễn đạt tốt chủ đề nhưng hạn chế về thành ngữ học thuật.",
-      grammar: "Phối hợp nhuần nhuyễn câu đơn và câu ghép, ít lỗi ngữ pháp gây khó hiểu.",
-      pron: "Phát âm rõ, dễ nghe, có nhịp điệu tương tốt."
+      discourse: "Bố cục rõ ràng, phân định rành mạch các phần lập luận và bác bỏ bằng từ nối hiệu quả.",
+      lexical: "Sử dụng từ vựng phong phú để diễn tả đa dạng khía cạnh chủ đề, có một số collocations tự nhiên.",
+      grammar: "Phối hợp tốt câu đơn và câu phức ghép, hạn chế tối đa lỗi cấu trúc.",
+      pron: "Phát âm nhìn chung rõ ràng, có ngữ điệu tự nhiên và biết nhấn đúng trọng âm của các từ quen thuộc."
     },
     B1: {
-      fluency: "Tốc độ nói trung bình, còn ngập ngừng hoặc lặp từ. Liên kết ý bằng các từ nối đơn giản.",
-      lexical: "Từ vựng cơ bản, đủ diễn tả ý chính, đôi chỗ bị lặp từ.",
-      grammar: "Sử dụng chủ yếu câu đơn hoặc câu ghép cơ bản, có một số lỗi ngữ pháp nhỏ.",
-      pron: "Phát âm rõ ràng các từ cơ bản, đôi chỗ còn nhầm lẫn âm đuôi hoặc trọng âm."
+      discourse: "Lập luận cơ bản, dễ hiểu theo trình tự các bước gợi ý. Từ liên kết ở mức đơn giản.",
+      lexical: "Sử dụng từ vựng quen thuộc liên quan tới chủ đề, đôi chỗ còn lặp từ nhưng vẫn đảm bảo diễn đạt đủ ý chính.",
+      grammar: "Sử dụng câu đơn giản và câu ghép cơ bản. Có thể mắc một số lỗi ngữ pháp nhỏ không gây hiểu nhầm.",
+      pron: "Phát âm các từ cơ bản rõ ràng. Cần chú ý phát âm đúng âm đuôi để tránh lỗi nuốt âm khi trình bày."
     }
   };
 
-  // Custom highlights based on topic
+  // Custom highlights and specific pronunciation help based on topic
   if (topicId === 0) { // Attracting Tourists
     if (band === "C1") {
       return {
         ...common.C1,
+        pron: "Trọng âm và cách phát âm của các từ vựng học thuật trong bài mẫu: **interventions** /ˌɪn.təˈven.ʃənz/ (trọng âm phụ ở /ˌɪn/, trọng âm chính ở âm tiết thứ ba /ˈven/), **lucrative** /ˈluː.krə.tɪv/ (nguyên âm /uː/ dài, trọng âm thứ nhất), **catalyst** /ˈkæt.əl.ɪst/ (nguyên âm đầu /æ/ bẹt, âm 'y' phát âm là /ɪ/), **inclement** /ɪnˈklem.ənt/ (trọng âm rơi vào âm tiết thứ hai).",
         vocabularyHighlights: ["strategic interventions (can thiệp chiến lược)", "lucrative catalyst (chất xúc tác sinh lợi)", "dwell time (thời gian lưu trú)", "inclement weather (thời tiết khắc nghiệt)"],
         grammarHighlights: ["Phép đảo ngữ: 'only entertainment centers possess...'", "Phép so sánh tương phản cấu trúc song song: 'while parks foster..., only entertainment centers...'"],
-        tacticalAdvice: "Hãy chú ý nhấn mạnh vào cụm từ 'puts the cart before the horse' với ngữ điệu châm biếm nhẹ để tạo ấn tượng mạnh với giám khảo."
+        tacticalAdvice: "Hãy chú ý làm nổi bật cụm từ 'puts the cart before the horse' khi chuẩn bị lập luận để tạo chiều sâu phản biện."
       };
     }
     if (band === "B2") {
       return {
         ...common.B2,
+        pron: "Lưu ý phát âm các từ: **regardless** /rɪˈɡɑːd.ləs/ (trọng âm âm tiết thứ hai, tránh nuốt âm đuôi /s/), **engaged** /ɪnˈɡeɪdʒd/ (chú ý âm /ɡ/ và đuôi /dʒd/ dứt khoát), **weather** /ˈweð.ər/ (phát âm rõ phụ âm /ð/ hữu thanh), **landmarks** /ˈlænd.mɑːks/ (âm cuối /ks/ rõ ràng).",
         vocabularyHighlights: ["boost tourism (thúc đẩy du lịch)", "major landmarks (địa danh lớn)", "regardless of the weather (bất kể thời tiết)", "engaged for hours (hào hứng hàng giờ)"],
         grammarHighlights: ["Mệnh đề quan hệ xác định: 'leisure malls always keep visitors engaged...'", "Cấu trúc tương phản: 'While building holiday flats..., providing parks is...'"],
-        tacticalAdvice: "Sử dụng các từ chuyển ý 'To begin with', 'On the other hand' một cách dứt khoát để ngắt các phần lập luận rõ ràng."
+        tacticalAdvice: "Sử dụng các từ chuyển ý 'To begin with', 'On the other hand' một cách dứt khoát để làm rõ mạch lập luận của bạn."
       };
     }
     return {
       ...common.B1,
+      pron: "Chú ý phát âm âm đuôi: **activities** /ækˈtɪv.ə.tiz/ (trọng âm âm tiết thứ hai, chú ý âm đuôi /z/), **crowded** /ˈkraʊ.dɪd/ (đuôi '-ed' đọc rõ thành /ɪd/), **fun** /fʌn/ (nguyên âm ngắn /ʌ/, tránh nhầm lẫn với /u/ hay 'un').",
       vocabularyHighlights: ["fun activities (hoạt động vui vẻ)", "exciting for young people (thú vị cho người trẻ)", "always crowded (luôn đông đúc)"],
       grammarHighlights: ["Câu đơn ngắn gọn, trực diện.", "Liên từ đơn giản: 'Firstly', 'Secondly', 'Also'."],
-      tacticalAdvice: "Cố gắng giữ nhịp thở đều, đọc rõ âm đuôi như 's' trong 'tourists', 'movies' và 'activities'."
+      tacticalAdvice: "Cố gắng ghi nhớ các trạng từ liên kết ý, phát âm rõ âm đuôi như 's' trong 'tourists', 'movies' và 'activities'."
     };
   }
 
@@ -64,24 +67,27 @@ const getDetailedRubric = (band: "C1" | "B2" | "B1", topicId: number): RubricDet
     if (band === "C1") {
       return {
         ...common.C1,
-        vocabularyHighlights: ["pedagogical flaws (thiếu sót sư phạm)", "academic integrity (sự liêm chính học thuật)", "intrinsic motivation (động lực nội tại)", "transactional reward loop (vòng lặp phần thưởng giao dịch)"],
+        pron: "Trọng âm của các từ vựng cao cấp trong bài mẫu: **pedagogical** /ˌped.əˈɡɒdʒ.ɪ.kəl/ (trọng âm phụ ở /ˌped/, trọng âm chính ở âm tiết thứ ba /ˈɡɒdʒ/), **integrity** /ɪnˈteɡ.rə.ti/ (trọng âm âm tiết thứ hai), **intrinsic** /ɪnˈtrɪn.zɪk/ (trọng âm âm tiết thứ hai, chú ý âm đuôi /k/), **transactional** /trænˈzæk.ʃən.əl/ (nguyên âm bẹt /æ/ ở âm tiết thứ hai).",
+        vocabularyHighlights: ["pedagogical flaws (thiót sót sư phạm)", "academic integrity (sự liêm chính học thuật)", "intrinsic motivation (động lực nội tại)", "transactional reward loop (vòng lặp phần thưởng giao dịch)"],
         grammarHighlights: ["Cấu trúc giả định / điều kiện phức tạp: 'if high marks are handed out easily, they...'", "Mệnh đề danh từ: 'When a teacher praises a student's specific effort rather than...'"],
-        tacticalAdvice: "Sử dụng giọng nói điềm tĩnh, chuyên nghiệp. Ngắt nghỉ đúng chỗ sau các liên từ bổ trợ như 'Conversely', 'Meanwhile'."
+        tacticalAdvice: "Sử dụng lối hành văn mạch lạc, chặt chẽ. Ngắt câu rõ ràng sau các liên từ bổ trợ như 'Conversely', 'Meanwhile'."
       };
     }
     if (band === "B2") {
       return {
         ...common.B2,
+        pron: "Lưu ý phát âm đúng các từ: **valued** /ˈvæl.juːd/ (âm /uː/ dài, có âm đuôi /d/), **compliments** /ˈkɒm.plɪ.mənts/ (trọng âm âm tiết đầu, đuôi /ts/ phát âm dứt khoát), **metrics** /ˈmet.rɪks/ (âm đuôi /ks/ rõ ràng), **confidence** /ˈkɒn.fɪ.dəns/ (âm tiết đầu là nguyên âm ngắn /ɒ/, kết thúc bằng /s/).",
         vocabularyHighlights: ["build confidence (xây dựng sự tự tin)", "feel valued and respected (cảm thấy được trân trọng)", "free of charge (miễn phí)", "academic metrics (thước đo học thuật)"],
         grammarHighlights: ["Cấu trúc tương quan: 'once they know they will get an A anyway...'", "Câu phức với 'because': 'compliments are very powerful because they build...'"],
-        tacticalAdvice: "Nhấn mạnh các từ chỉ cảm xúc tích cực như 'valued', 'respected', 'confidence' để bài nói sinh động."
+        tacticalAdvice: "Tập trung làm nổi bật các từ chỉ cảm xúc tích cực như 'valued', 'respected', 'confidence' để bài lập luận sinh động hơn."
       };
     }
     return {
       ...common.B1,
+      pron: "Chú ý phát âm các từ cơ bản: **harder** /ˈhɑː.dər/ (nguyên âm /ɑː/ kéo dài), **compliment** /ˈkɒm.plɪ.mənt/ (chú ý trọng âm thứ nhất, đuôi /nt/ dứt khoát), **happy** /ˈhæp.i/ (nguyên âm bẹt /æ/ mở rộng miệng, không đọc thành 'he-pi').",
       vocabularyHighlights: ["study harder (học chăm hơn)", "very happy (rất vui)", "too expensive (quá đắt)"],
       grammarHighlights: ["Cấu trúc cơ bản 'When...': 'When a teacher says..., the student feels...'", "Cấu trúc nguyên nhân - kết quả cơ bản: 'If the school has no money, they...'"],
-      tacticalAdvice: "Nói rõ ràng, rành mạch. Đảm bảo phát âm đúng âm 't' trong 'compliment' và 's' trong 'students'."
+      tacticalAdvice: "Diễn đạt rõ ràng, rành mạch. Đảm bảo chú ý phát âm đúng âm 't' trong 'compliment' và 's' trong 'students'."
     };
   }
 
@@ -89,24 +95,27 @@ const getDetailedRubric = (band: "C1" | "B2" | "B1", topicId: number): RubricDet
     if (band === "C1") {
       return {
         ...common.C1,
+        pron: "Trọng âm của các từ vựng học thuật trong bài: **sedentary** /ˈsed.ən.tər.i/ (trọng âm rơi vào âm tiết đầu tiên /ˈsed/), **modification** /ˌmɒd.ɪ.fɪˈkeɪ.ʃən/ (trọng âm chính rơi vào âm tiết /ˈkeɪ/), **indispensable** /ˌɪn.dɪˈspen.sə.bəl/ (trọng âm rơi vào âm tiết /ˈspen/), **sunk** /sʌŋk/ (chú ý âm mũi /ŋ/ và phụ âm cuối /k/).",
         vocabularyHighlights: ["sedentary lifestyle (lối sống ít vận động)", "dietary modification (điều chỉnh chế độ ăn)", "indispensable foundation (nền tảng không thể thiếu)", "unusable sunk costs (chi phí chìm không dùng đến)"],
         grammarHighlights: ["Cấu trúc phân từ hoàn thành: 'For an office worker bound to a desk...'", "Mệnh đề nhượng bộ phức hợp: 'While physical exertion is vital, I would contend that...'"],
-        tacticalAdvice: "Thể hiện tư duy phản biện cao bằng cách nhấn giọng ở từ 'indispensable' và 'counteract'."
+        tacticalAdvice: "Thể hiện tư duy phản biện cao bằng cách nhấn trọng âm chính xác ở các từ 'indispensable' và 'counteract' khi phát âm nhẩm."
       };
     }
     if (band === "B2") {
       return {
         ...common.B2,
+        pron: "Chú ý phát âm các từ: **productively** /prəˈdʌk.tɪv.li/ (trọng âm rơi vào âm tiết thứ hai /ˈdʌk/), **exhausting** /ɪɡˈzɔː.stɪŋ/ (âm 'h' câm, âm đầu phát âm là /ɪɡ/, âm sau có nguyên âm /ɔː/), **starting** /ˈstɑː.tɪŋ/ (nguyên âm /ɑː/ kéo dài), **nutrition** /njuːˈtrɪʃ.ən/ (trọng âm rơi vào âm tiết thứ hai /ˈtrɪʃ/).",
         vocabularyHighlights: ["stay healthy (giữ sức khỏe)", "work productively (làm việc hiệu quả)", "exhausting workday (ngày làm việc mệt mỏi)", "logical starting point (điểm khởi đầu hợp lý)"],
         grammarHighlights: ["Phép so sánh: 'nutrition plays the most important role...'", "Cấu trúc tương phản: 'In contrast, the other choices are...'"],
-        tacticalAdvice: "Nói với tốc độ tự nhiên, kể câu chuyện trải nghiệm cá nhân của dân văn phòng để tăng độ truyền cảm."
+        tacticalAdvice: "Xây dựng các câu lập luận thực tế, có thể liên hệ câu chuyện trải nghiệm cá nhân của dân văn phòng để tăng tính thuyết phục."
       };
     }
     return {
       ...common.B1,
+      pron: "Cách phát âm âm đuôi gió khó: **healthy** /ˈhel.θi/ (thổi hơi nhẹ ở âm răng-môi /θ/), **health** /helθ/ (âm cuối /θ/ thổi hơi dứt khoát không có /i/), **costs** /kɒsts/ (bật đủ tổ hợp phụ âm đuôi /sts/ ở cuối từ).",
       vocabularyHighlights: ["good health (sức khỏe tốt)", "eat healthy (ăn uống lành mạnh)", "costs a lot of money (tốn nhiều tiền)"],
       grammarHighlights: ["Cấu trúc điều kiện đơn giản: 'If we eat good food..., we will have...'", "Câu đơn giản: 'We can do this every day...'"],
-      tacticalAdvice: "Tập trung nói đúng âm đuôi 'th' trong 'health' và 'healthy', tránh nuốt âm."
+      tacticalAdvice: "Chú ý phát âm chuẩn xác âm đuôi 'th' trong 'health' và 'healthy' để tránh mắc lỗi ngữ âm."
     };
   }
 
@@ -157,47 +166,11 @@ export default function AnswerViewer({
       o: `Elaborate on the key benefits of ${selectedOptionName}. Use specific supporting reasons (e.g., cost-effectiveness, convenience, or long-term positive impact) to justify your stance.`,
       c: `Contrast and systematically reject the other options (${otherOptionsNames.join(" and ")}). Point out their key flaws, such as high expenses, weather dependency, or lack of practicality.`,
       a: `Conclude with a confident summary: "All in all, while the other choices have some merits, ${selectedOptionName} is undeniably the most logical decision."`,
-      note: "Hướng dẫn tự luyện nói: Hãy dựa vào khung sườn cấu trúc SOCA ở trên để tự triển khai ý nói. Để AI tự động viết kịch bản chi tiết và phân tích từ vựng cao cấp cho bạn, hãy cấu hình GEMINI_API_KEY ở mục Settings > Secrets của không gian làm việc nhé!"
+      note: "Hướng dẫn xây dựng kịch bản: Hãy dựa vào khung sườn cấu trúc SOCA ở trên để tự luyện tập và phát triển mạch ý tưởng nhé!"
     };
   };
 
   const activeAnswer = getDisplayAnswer();
-
-  // Call server-side endpoint to generate a custom answer
-  const generateCustomAnswer = async () => {
-    setGenerating(true);
-    setGenError(null);
-    try {
-      const response = await fetch("/api/generate-answer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          topicLabel: topic.label,
-          situation: topic.situation,
-          selectedChoiceName: selectedOptionName,
-          otherChoicesNames: otherOptionsNames,
-          band: band
-        })
-      });
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || "Failed to generate answer.");
-      }
-      const data = await response.json();
-      setCustomAnswer({
-        s: data.s,
-        o: data.o,
-        c: data.c,
-        a: data.a,
-        note: data.note
-      });
-    } catch (error: any) {
-      console.error(error);
-      setGenError(error.message || "Không thể kết nối đến máy chủ. Vui lòng đảm bảo đã cấu hình GEMINI_API_KEY.");
-    } finally {
-      setGenerating(false);
-    }
-  };
 
   // Reset custom answers and errors when topic, option, or band changes
   useEffect(() => {
@@ -209,25 +182,22 @@ export default function AnswerViewer({
   const getIndicativeScores = () => {
     if (band === "C1") {
       return [
-        { label: "Fluency & Coherence", val: 9.0, color: "bg-[#D44D5C]" },
+        { label: "Discourse & Organization", val: 9.0, color: "bg-[#D44D5C]" },
         { label: "Lexical Resource", val: 9.0, color: "bg-[#D44D5C]" },
-        { label: "Grammatical Range", val: 8.5, color: "bg-[#D44D5C]" },
-        { label: "Pronunciation (Stress/Intonation)", val: 9.0, color: "bg-[#D44D5C]" }
+        { label: "Grammatical Range", val: 8.5, color: "bg-[#D44D5C]" }
       ];
     }
     if (band === "B2") {
       return [
-        { label: "Fluency & Coherence", val: 7.5, color: "bg-[#D44D5C]" },
+        { label: "Discourse & Organization", val: 7.5, color: "bg-[#D44D5C]" },
         { label: "Lexical Resource", val: 7.0, color: "bg-[#D44D5C]" },
-        { label: "Grammatical Range", val: 7.0, color: "bg-[#D44D5C]" },
-        { label: "Pronunciation (Stress/Intonation)", val: 7.5, color: "bg-[#D44D5C]" }
+        { label: "Grammatical Range", val: 7.0, color: "bg-[#D44D5C]" }
       ];
     }
     return [
-      { label: "Fluency & Coherence", val: 5.0, color: "bg-[#D44D5C]" },
+      { label: "Discourse & Organization", val: 5.0, color: "bg-[#D44D5C]" },
       { label: "Lexical Resource", val: 5.0, color: "bg-[#D44D5C]" },
-      { label: "Grammatical Range", val: 5.0, color: "bg-[#D44D5C]" },
-      { label: "Pronunciation (Stress/Intonation)", val: 5.5, color: "bg-[#D44D5C]" }
+      { label: "Grammatical Range", val: 5.0, color: "bg-[#D44D5C]" }
     ];
   };
 
@@ -276,29 +246,16 @@ export default function AnswerViewer({
             {highlightOn ? <EyeOff size={14} /> : <Eye size={14} />}
             <span>{highlightOn ? "Tắt màu cấu trúc" : "Bật màu cấu trúc"}</span>
           </button>
-
-          {/* Regenerate Button */}
-          {!isRecommendedChoice && (customAnswer || genError) && (
-            <button
-              onClick={generateCustomAnswer}
-              disabled={generating}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 border-2 border-[#D44D5C] text-[11px] font-bold uppercase tracking-widest text-white bg-[#D44D5C] hover:bg-black hover:border-black transition-colors cursor-pointer disabled:opacity-50"
-              id="btn-regenerate-ai"
-            >
-              <RefreshCw size={14} className={generating ? "animate-spin" : ""} />
-              <span>{generating ? "Đang viết..." : "AI Lập luận lại"}</span>
-            </button>
-          )}
         </div>
       </div>
 
       {/* Answer Area */}
       <div className="mb-4">
         <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2.5 flex items-center justify-between">
-          <span>Kịch bản nói mẫu ({band} Level Script) — chạm đoạn để xem giải thích</span>
-          {!isRecommendedChoice && !customAnswer && (
+          <span>Kịch bản mẫu ({band} Level Script) — chạm đoạn để xem giải thích</span>
+          {!isRecommendedChoice && (
             <span className="text-[#D44D5C] font-bold flex items-center gap-1 uppercase tracking-wider">
-              <AlertTriangle size={10} /> Khung sườn nói mẫu phía dưới
+              <AlertTriangle size={10} /> Khung sườn gợi ý phía dưới
             </span>
           )}
         </div>
@@ -325,7 +282,7 @@ export default function AnswerViewer({
               ))}
               <div className="flex items-center justify-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest pt-3 border-t border-black/5">
                 <Sparkles size={14} className="animate-spin text-[#D44D5C]" />
-                <span className="animate-pulse text-[#D44D5C]">Trí tuệ nhân tạo Gemini đang lập luận bài nói mẫu...</span>
+                <span className="animate-pulse text-[#D44D5C]">Trí tuệ nhân tạo Gemini đang lập luận kịch bản mẫu...</span>
               </div>
             </div>
           ) : (
@@ -365,48 +322,20 @@ export default function AnswerViewer({
       </div>
 
       {/* Information Banner for Custom Choices */}
-      {!isRecommendedChoice && !generating && (
-        <div className={`p-4 mb-5 border-2 border-black flex flex-col sm:flex-row items-center justify-between gap-4 ${customAnswer ? "bg-amber-50/40 border-dashed border-[#D44D5C]" : "bg-gray-50 border-dotted border-gray-400"}`}>
+      {!isRecommendedChoice && (
+        <div className="p-4 mb-5 border-2 border-black border-dotted flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50 border-gray-400">
           <div className="flex items-start gap-2.5">
-            <div className={`p-1.5 rounded-none mt-0.5 ${customAnswer ? "bg-amber-100 text-amber-800" : "bg-gray-200 text-gray-700"}`}>
-              {customAnswer ? <Sparkles size={16} className="text-[#D44D5C]" /> : <Info size={16} />}
+            <div className="p-1.5 rounded-none mt-0.5 bg-gray-200 text-gray-700">
+              <Info size={16} />
             </div>
             <div>
               <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider">
-                {customAnswer ? "Kịch bản AI Cá Nhân Hóa (Gemini Live-Crafted)" : "Khung sườn Gợi ý nói chuẩn SOCA"}
+                Khung sườn Gợi ý lập luận SOCA
               </h4>
               <p className="text-xs text-gray-700 leading-relaxed mt-0.5">
-                {customAnswer ? (
-                  <>
-                    Kịch bản mẫu Band <strong>{band}</strong> tự động thiết kế riêng theo lựa chọn <strong>Option {selectedOptionId} ({selectedOptionName})</strong>.
-                  </>
-                ) : (
-                  <>
-                    Đang hiển thị hướng dẫn tự phát triển ý. Nếu muốn AI viết kịch bản chi tiết bằng tiếng Anh, vui lòng cấu hình <strong>GEMINI_API_KEY</strong> trong Settings.
-                  </>
-                )}
+                Bạn đang chọn phương án khác với lựa chọn gợi ý mặc định. Hãy dựa vào khung sườn cấu trúc SOCA chi tiết ở trên để tự luyện tập và xây dựng kịch bản một cách tốt nhất nhé!
               </p>
             </div>
-          </div>
-          
-          <button
-            onClick={generateCustomAnswer}
-            disabled={generating}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-black hover:bg-[#D44D5C] text-white text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer disabled:opacity-50 flex-shrink-0"
-            id="btn-banner-ai-action"
-          >
-            <RefreshCw size={12} className={generating ? "animate-spin" : ""} />
-            <span>{customAnswer ? "Tạo lại bài mới" : "Thử tạo bằng AI"}</span>
-          </button>
-        </div>
-      )}
-
-      {/* Error Message */}
-      {genError && (
-        <div className="bg-white border-2 border-red-600 text-red-600 p-3.5 text-xs mb-5 flex items-start gap-2 animate-fade-in">
-          <AlertTriangle size={15} className="mt-0.5 flex-shrink-0" />
-          <div>
-            <span className="font-bold uppercase tracking-wider">Lỗi tạo bài:</span> {genError}
           </div>
         </div>
       )}
@@ -453,15 +382,15 @@ export default function AnswerViewer({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="bg-white p-3 border border-black/10">
                   <span className="block text-[10px] text-[#D44D5C] font-black uppercase tracking-wider mb-1">
-                    🗣️ Fluency & Coherence
+                    🧩 Discourse & Organization (Mạch lạc & Bố cục)
                   </span>
                   <p className="text-xs text-gray-700 leading-relaxed font-sans">
-                    {rubric.fluency}
+                    {rubric.discourse}
                   </p>
                 </div>
                 <div className="bg-white p-3 border border-black/10">
                   <span className="block text-[10px] text-gray-950 font-black uppercase tracking-wider mb-1">
-                    📚 Lexical Resource
+                    📚 Lexical Resource (Vốn từ vựng)
                   </span>
                   <p className="text-xs text-gray-700 leading-relaxed font-sans">
                     {rubric.lexical}
@@ -469,15 +398,15 @@ export default function AnswerViewer({
                 </div>
                 <div className="bg-white p-3 border border-black/10">
                   <span className="block text-[10px] text-gray-950 font-black uppercase tracking-wider mb-1">
-                    ⚡ Grammatical Range
+                    ⚡ Grammatical Range (Ngữ pháp & Cấu trúc)
                   </span>
                   <p className="text-xs text-gray-700 leading-relaxed font-sans">
                     {rubric.grammar}
                   </p>
                 </div>
-                <div className="bg-white p-3 border border-black/10">
+                <div className="bg-white p-3 border border-[#D44D5C]/30 bg-[#FDFCFB]">
                   <span className="block text-[10px] text-[#D44D5C] font-black uppercase tracking-wider mb-1">
-                    🎯 Pronunciation Guide
+                    🎯 Tricky Pronunciation (Từ vựng dễ phát âm sai)
                   </span>
                   <p className="text-xs text-gray-700 leading-relaxed font-sans">
                     {rubric.pron}
@@ -519,7 +448,7 @@ export default function AnswerViewer({
               {rubric.tacticalAdvice && (
                 <div className="bg-white p-3.5 border border-[#D44D5C]/30 border-l-[4px] border-l-[#D44D5C]">
                   <span className="text-[10px] font-bold text-[#D44D5C] uppercase tracking-widest block mb-1">
-                    Mẹo nói đạt điểm cao (Tactical Speaking Advice)
+                    Mẹo lập luận đạt điểm cao (Tactical Argumentation Advice)
                   </span>
                   <p className="text-xs text-gray-800 leading-relaxed font-sans italic">
                     "{rubric.tacticalAdvice}"

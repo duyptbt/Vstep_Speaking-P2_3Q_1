@@ -79,10 +79,10 @@ export default function App() {
                   </div>
                   <div className="text-xs leading-relaxed">
                     <strong className="text-gray-950 block font-display font-black mb-0.5 uppercase tracking-wider text-[10px]">
-                      Nói tự nhiên, tránh 'học vẹt' (Speak naturally, don't read)
+                      Hành văn tự nhiên, tránh rập khuôn (Express naturally, avoid clichés)
                     </strong>
                     <span className="text-gray-600">
-                      Hãy dùng các cụm từ đệm tự nhiên như <em className="font-serif">"Honestly...", "In my opinion...", "Well, to tell you the truth..."</em>. Giám khảo đánh giá cao sự lưu loát tự nhiên hơn là câu trả lời đọc thuộc lòng.
+                      Hãy dùng các cụm từ đệm liên kết tự nhiên như <em className="font-serif">"Honestly...", "In my opinion...", "Well, to tell you the truth..."</em>. Điều này giúp kịch bản lập luận của bạn mềm mại, sinh động và thuyết phục hơn là học thuộc lòng theo khuôn mẫu.
                     </span>
                   </div>
                 </div>
@@ -96,7 +96,7 @@ export default function App() {
                       Dẫn chứng thực tế cá nhân (Use personalized examples)
                     </strong>
                     <span className="text-gray-600">
-                      Đưa các câu chuyện ngắn của chính bạn: <em className="font-serif">"From my experience...", "In my neighborhood..."</em>. Việc này giúp bài nói chân thực và không bị cạn ý tưởng giữa chừng.
+                      Đưa các câu chuyện ngắn của chính bạn: <em className="font-serif">"From my experience...", "In my neighborhood..."</em>. Việc này giúp lập luận chân thực, sinh động và không lo bị bí ý tưởng giữa chừng.
                     </span>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ export default function App() {
                       Câu ngắn liên kết chặt chẽ (Keep it simple and well-linked)
                     </strong>
                     <span className="text-gray-600">
-                      Bạn không cần cố phát âm những câu ghép quá dài dễ bị vấp và sai ngữ pháp. Hãy nói câu ngắn gọn nhưng liên kết chắc chắn bằng <em className="font-serif">"Because...", "And...", "But...", "However..."</em>.
+                      Bạn không cần viết những câu ghép quá dài dễ bị rối cấu trúc và sai ngữ pháp. Hãy dùng các câu ngắn gọn nhưng liên kết chắc chắn bằng <em className="font-serif">"Because...", "And...", "But...", "However..."</em>.
                     </span>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ export default function App() {
                       Luôn bác bỏ 2 phương án còn lại (Rule out the alternatives)
                     </strong>
                     <span className="text-gray-600">
-                      Đây là yêu cầu bắt buộc của Part 2. Bài nói của bạn sẽ bị trừ điểm rất nặng nếu chỉ tập trung nói ưu điểm của lựa chọn chính mà bỏ quên việc giải thích vì sao 2 lựa chọn kia không tối ưu.
+                      Đây là yêu cầu bắt buộc của lập luận Part 2. Bài chuẩn bị của bạn sẽ bị đánh giá thấp nếu chỉ tập trung nêu ưu điểm của lựa chọn chính mà bỏ quên việc giải thích vì sao 2 lựa chọn kia không tối ưu.
                     </span>
                   </div>
                 </div>

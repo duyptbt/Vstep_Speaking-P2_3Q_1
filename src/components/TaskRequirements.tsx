@@ -79,7 +79,7 @@ export default function TaskRequirements() {
               <span className="text-sm font-bold text-gray-950">1.0 Min (60s)</span>
             </div>
             <div className="bg-[#FDFCFB] p-3 border border-black/10">
-              <span className="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">💬 Speaking Time</span>
+              <span className="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">💬 Practice Time</span>
               <span className="text-sm font-bold text-gray-950">3.0 Mins (180s)</span>
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function TaskRequirements() {
             </div>
             <div>
               <span className="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">
-                {timeState === "prep" ? "Preparation" : timeState === "speaking" ? "Speaking" : timeState === "finished" ? "Done" : "Practice Timer"}
+                {timeState === "prep" ? "Preparation" : timeState === "speaking" ? "Practice" : timeState === "finished" ? "Done" : "Practice Timer"}
               </span>
               <span className="text-2xl font-display font-black tracking-tight text-gray-950">
                 {formatTime(seconds)}
@@ -147,19 +147,19 @@ export default function TaskRequirements() {
       {timeState === "prep" && (
         <div className="mt-3 flex items-center gap-2 text-xs text-gray-950 bg-amber-50 p-2.5 border border-amber-300">
           <AlertCircle size={14} className="flex-shrink-0 text-[#D44D5C]" />
-          <span>Giai đoạn chuẩn bị: Đọc kỹ tình huống, xem bản đồ so sánh bên dưới để phác thảo nhanh ý tưởng nói.</span>
+          <span>Giai đoạn chuẩn bị: Đọc kỹ tình huống, xem bản đồ so sánh bên dưới để phác thảo nhanh ý tưởng và lập luận.</span>
         </div>
       )}
       {timeState === "speaking" && (
         <div className="mt-3 flex items-center gap-2 text-xs text-white bg-black p-2.5 border border-black">
           <AlertCircle size={14} className="flex-shrink-0 text-[#D44D5C]" />
-          <span>Giai đoạn nói: Trình bày bài thi dựa trên khung S-O-C-A. Tránh ngập ngừng lâu, giữ tốc độ đều đặn.</span>
+          <span>Giai đoạn thực hành: Diễn đạt bài nói của bạn dựa trên khung S-O-C-A. Hãy tập trung vào tính mạch lạc và độ trôi chảy của lập luận/kịch bản.</span>
         </div>
       )}
       {timeState === "finished" && (
         <div className="mt-3 flex items-center gap-2 text-xs text-gray-950 bg-[#D44D5C]/10 p-2.5 border border-[#D44D5C]">
           <AlertCircle size={14} className="flex-shrink-0 text-[#D44D5C]" />
-          <span>Hết giờ nói! Hãy tham khảo câu trả lời mẫu hoặc viết bài nháp vào ô kiểm tra bên dưới để AI đánh giá nhé.</span>
+          <span>Hết giờ thực hành! Hãy tham khảo kịch bản mẫu hoặc viết kịch bản nháp vào ô kiểm tra bên dưới để AI đánh giá nhé.</span>
         </div>
       )}
     </div>

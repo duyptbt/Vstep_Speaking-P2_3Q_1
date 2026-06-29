@@ -42,7 +42,7 @@ app.post("/api/evaluate", async (req, res) => {
 
     const ai = getGenAI();
 
-    const systemInstruction = `You are an expert VSTEP Speaking Examiner specializing in Part 2: Solution Discussion. 
+    const systemInstruction = `You are an expert VSTEP Trainer specializing in Part 2: Solution Discussion (preparing and reviewing written outlines/scripts for speaking practice). 
 The VSTEP (Vietnamese Standardized Test of English Proficiency) Speaking Part 2 requires a candidate to:
 1. Discuss a given situation and select the best option among three provided alternatives.
 2. Justify why their chosen option is the best (advantages).
@@ -55,19 +55,19 @@ The structural framework is SOCA:
 - C: Comparison & Rejection (Critique and dismiss the other two options)
 - A: Conclusion (Natural wrap-up)
 
-Evaluate the candidate's draft response carefully. Be encouraging yet objective. Provide all analysis, critique, and feedback in Vietnamese, but keep the revised/polished sentences in clear, natural English matching VSTEP B1, B2, or C1 criteria.`;
+Evaluate the candidate's draft script carefully. Be encouraging yet objective. Provide all analysis, critique, and feedback in Vietnamese, but keep the revised/polished sentences in clear, natural English matching VSTEP B1, B2, or C1 criteria. Do not evaluate live voice attributes like pronunciation, tone of voice, pacing, or pauses, as you are assessing a text-based draft script.`;
 
     const prompt = `Topic: ${topicLabel}
 Situation: ${situation}
 Candidate Chosen Option: ${selectedChoiceName}
 Other Options Rejected: ${otherChoicesNames.join(", ")}
 
-Candidate's draft speaking text:
+Candidate's draft kịch bản text:
 """
 ${draftText}
 """
 
-Evaluate this response according to the VSTEP framework. Estimate if they are in Band B1 (4.0-5.5), Band B2 (6.0-8.0), or Band C1 (8.5-10.0).
+Evaluate this script according to the VSTEP framework. Estimate if they are in Band B1 (4.0-5.5), Band B2 (6.0-8.0), or Band C1 (8.5-10.0).
 Organize your response according to the requested JSON schema. Make sure the 'revisedVersion' splits their draft into S, O, C, A steps but in a polished, highly-effective version in English (correcting grammar, improving style and transition words). Include details of grammar errors and how to fix them in the critique.`;
 
     const response = await ai.models.generateContent({
@@ -94,7 +94,7 @@ Organize your response according to the requested JSON schema. Make sure the 're
             critique: {
               type: Type.OBJECT,
               properties: {
-                fluency: { type: Type.STRING, description: "Feedback on speaking pacing, pauses, and speech fillers in Vietnamese." },
+                fluency: { type: Type.STRING, description: "Feedback on the overall flow, transition phrases, and written fluency/layout of the script in Vietnamese." },
                 vocabulary: { type: Type.STRING, description: "Critique of their lexical choices, highlighting word improvements, in Vietnamese." },
                 grammar: { type: Type.STRING, description: "Grammatical error corrections, stating specific mistakes and fixes, in Vietnamese." },
                 coherence: { type: Type.STRING, description: "Critique of transition phrases and logical flow in Vietnamese." },
