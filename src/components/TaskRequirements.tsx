@@ -79,21 +79,21 @@ export default function TaskRequirements() {
               <span className="text-sm font-bold text-gray-950">1.0 Min (60s)</span>
             </div>
             <div className="bg-[#FDFCFB] p-3 border border-black/10">
-              <span className="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">💬 Practice Time</span>
+              <span className="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">💬 Speaking Time</span>
               <span className="text-sm font-bold text-gray-950">3.0 Mins (180s)</span>
             </div>
           </div>
         </div>
 
-        {/* PRACTICE TIMER UNIT */}
-        <div className="bg-white border-2 border-black p-4 flex items-center gap-4 md:w-80 w-full justify-between" id="practice-timer">
+        {/* SPEAKING TIMER UNIT */}
+        <div className="bg-white border-2 border-black p-4 flex items-center gap-4 md:w-80 w-full justify-between" id="speaking-timer">
           <div className="flex items-center gap-3">
             <div className={`p-2 ${timeState === "prep" ? "bg-[#D44D5C]/10 text-[#D44D5C]" : timeState === "speaking" ? "bg-black text-white" : "bg-gray-100 text-gray-500"}`}>
               <Clock size={20} />
             </div>
             <div>
               <span className="block text-[10px] text-gray-500 font-bold uppercase tracking-wider">
-                {timeState === "prep" ? "Preparation" : timeState === "speaking" ? "Practice" : timeState === "finished" ? "Done" : "Practice Timer"}
+                {timeState === "prep" ? "Preparation" : timeState === "speaking" ? "Speaking" : timeState === "finished" ? "Done" : "Speaking Timer"}
               </span>
               <span className="text-2xl font-display font-black tracking-tight text-gray-950">
                 {formatTime(seconds)}
@@ -153,13 +153,13 @@ export default function TaskRequirements() {
       {timeState === "speaking" && (
         <div className="mt-3 flex items-center gap-2 text-xs text-white bg-black p-2.5 border border-black">
           <AlertCircle size={14} className="flex-shrink-0 text-[#D44D5C]" />
-          <span>Giai đoạn thực hành: Diễn đạt bài nói của bạn dựa trên khung S-O-C-A. Hãy tập trung vào tính mạch lạc và độ trôi chảy của lập luận/kịch bản.</span>
+          <span>Giai đoạn luyện nói: Hãy luyện nói thành tiếng (speak out loud) dựa trên khung S-O-C-A. Hãy tập trung vào độ trôi chảy (oral fluency) và phát âm tự nhiên.</span>
         </div>
       )}
       {timeState === "finished" && (
         <div className="mt-3 flex items-center gap-2 text-xs text-gray-950 bg-[#D44D5C]/10 p-2.5 border border-[#D44D5C]">
           <AlertCircle size={14} className="flex-shrink-0 text-[#D44D5C]" />
-          <span>Hết giờ thực hành! Hãy tham khảo kịch bản mẫu hoặc viết kịch bản nháp vào ô kiểm tra bên dưới để AI đánh giá nhé.</span>
+          <span>Hết giờ luyện nói! Hãy xem và đối chiếu cách triển khai lập luận qua các bài nói mẫu ở bên dưới nhé.</span>
         </div>
       )}
     </div>

@@ -55,7 +55,7 @@ The structural framework is SOCA:
 - C: Comparison & Rejection (Critique and dismiss the other two options)
 - A: Conclusion (Natural wrap-up)
 
-Evaluate the candidate's draft script carefully. Be encouraging yet objective. Provide all analysis, critique, and feedback in Vietnamese, but keep the revised/polished sentences in clear, natural English matching VSTEP B1, B2, or C1 criteria. Do not evaluate live voice attributes like pronunciation, tone of voice, pacing, or pauses, as you are assessing a text-based draft script.`;
+Evaluate the candidate's script specifically as an oral presentation (bài nói). Under the 'vocabulary' or 'fluency' critique, you MUST identify 3-5 challenging or advanced words they used, and provide their exact phonetic transcriptions using the International Phonetic Alphabet (IPA) (e.g., 'strategic' /strəˈtiː.dʒɪk/) along with concrete Vietnamese tips to help them practice speaking these words with correct stress and vowels. Encourage natural spoken transitions, proper pauses, and speech rhythm suitable for a 3-minute VSTEP oral discussion.`;
 
     const prompt = `Topic: ${topicLabel}
 Situation: ${situation}
