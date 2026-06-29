@@ -199,16 +199,10 @@ export default function AnswerViewer({
     }
   };
 
-  // Auto-generate custom answer when choice is not the recommended choice
+  // Reset custom answers and errors when topic, option, or band changes
   useEffect(() => {
-    if (!isRecommendedChoice) {
-      setCustomAnswer(null);
-      setGenError(null);
-      generateCustomAnswer();
-    } else {
-      setCustomAnswer(null);
-      setGenError(null);
-    }
+    setCustomAnswer(null);
+    setGenError(null);
   }, [topic, selectedOptionId, band]);
 
   // Indicative scores based on band
